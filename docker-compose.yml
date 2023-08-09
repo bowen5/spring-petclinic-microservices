@@ -1,4 +1,4 @@
-version: '2'
+version: '3'
 
 services:
   config-server:
@@ -12,9 +12,10 @@ services:
     image: bowan.azurecr.io/spring-petclinic-discovery-server
     container_name: discovery-server
     mem_limit: 512M
+    restart: on-failure
     depends_on:
       - config-server
-    entrypoint: ["./dockerize","-wait=tcp://config-server:8888","-timeout=60s","--","java", "org.springframework.boot.loader.JarLauncher"]
+    entrypoint: ["java", "org.springframework.boot.loader.JarLauncher"]
     ports:
      - 8761:8761
 
@@ -22,10 +23,11 @@ services:
     image: bowan.azurecr.io/spring-petclinic-customers-service
     container_name: customers-service
     mem_limit: 512M
+    restart: on-failure
     depends_on:
      - config-server
      - discovery-server
-    entrypoint: ["./dockerize","-wait=tcp://discovery-server:8761","-timeout=60s","--","java", "org.springframework.boot.loader.JarLauncher"]
+    entrypoint: ["java", "org.springframework.boot.loader.JarLauncher"]
     ports:
     - 8081:8081
 
@@ -33,10 +35,11 @@ services:
     image: bowan.azurecr.io/spring-petclinic-visits-service
     container_name: visits-service
     mem_limit: 512M
+    restart: on-failure
     depends_on:
      - config-server
      - discovery-server
-    entrypoint: ["./dockerize","-wait=tcp://discovery-server:8761","-timeout=60s","--","java", "org.springframework.boot.loader.JarLauncher"]
+    entrypoint: ["java", "org.springframework.boot.loader.JarLauncher"]
     ports:
      - 8082:8082
 
@@ -44,10 +47,11 @@ services:
     image: bowan.azurecr.io/spring-petclinic-vets-service
     container_name: vets-service
     mem_limit: 512M
+    restart: on-failure
     depends_on:
      - config-server
      - discovery-server
-    entrypoint: ["./dockerize","-wait=tcp://discovery-server:8761","-timeout=60s","--","java", "org.springframework.boot.loader.JarLauncher"]
+    entrypoint: ["java", "org.springframework.boot.loader.JarLauncher"]
     ports:
      - 8083:8083
 
@@ -55,10 +59,11 @@ services:
     image: bowan.azurecr.io/spring-petclinic-api-gateway
     container_name: api-gateway
     mem_limit: 512M
+    restart: on-failure
     depends_on:
      - config-server
      - discovery-server
-    entrypoint: ["./dockerize","-wait=tcp://discovery-server:8761","-timeout=60s","--","java", "org.springframework.boot.loader.JarLauncher"]
+    entrypoint: ["java", "org.springframework.boot.loader.JarLauncher"]
     ports:
      - 8080:8080
 
@@ -75,10 +80,11 @@ services:
     image: bowan.azurecr.io/spring-petclinic-admin-server
     container_name: admin-server
     mem_limit: 512M
+    restart: on-failure
     depends_on:
      - config-server
      - discovery-server
-    entrypoint: ["./dockerize","-wait=tcp://discovery-server:8761","-timeout=60s","--","java", "org.springframework.boot.loader.JarLauncher"]
+    entrypoint: ["java", "org.springframework.boot.loader.JarLauncher"]
     ports:
      - 9090:9090
 
