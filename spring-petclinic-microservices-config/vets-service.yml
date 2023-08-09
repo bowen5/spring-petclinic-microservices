@@ -24,7 +24,7 @@ server:
   port: 8083
 eureka:
   instance:
-    instance-id: ${spring.application.name}:${server.port}
+    hostname: ${spring.application.name}
   client:
     serviceUrl:
       defaultZone: http://discovery-server:8761/eureka/
