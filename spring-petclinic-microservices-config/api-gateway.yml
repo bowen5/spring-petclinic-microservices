@@ -25,6 +25,8 @@ spring:
   zipkin:
     baseUrl: http://tracing-server:9411
 eureka:
+  instance:
+    instance-id: ${spring.application.name}:${server.port}
   client:
     serviceUrl:
       defaultZone: http://discovery-server:8761/eureka/
