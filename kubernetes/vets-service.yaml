@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: vets-service
+  name: vets-service
+  namespace: spring-petclinic
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: vets-service
+  template:
+    metadata:
+      labels:
+        app: vets-service
+    spec:
+      containers:
+        - image: bowan.azurecr.io/spring-petclinic-vets-service:latest
+          name: vets-service
+          imagePullPolicy: Always
+          resources:
+            limits:
+              cpu: 500m
+              memory: 512Mi
+            requests:
+              cpu: 500m
+              memory: 512Mi
+          ports:
+            - containerPort: 8083
+      restartPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: vets-service
+  namespace: spring-petclinic
+spec:
+  ports:
+    - port: 8083
+  selector:
+    app: vets-service

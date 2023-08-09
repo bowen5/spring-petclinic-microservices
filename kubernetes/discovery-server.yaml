@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: discovery-server
+  name: discovery-server
+  namespace: spring-petclinic
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: discovery-server
+  template:
+    metadata:
+      labels:
+        app: discovery-server
+    spec:
+      containers:
+        - image: bowan.azurecr.io/spring-petclinic-discovery-server:latest
+          name: discovery-server
+          imagePullPolicy: Always
+          resources:
+            limits:
+              cpu: 500m
+              memory: 512Mi
+            requests:
+              cpu: 500m
+              memory: 512Mi
+          ports:
+            - containerPort: 8761
+      restartPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: discovery-server
+  namespace: spring-petclinic
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 8761
+  selector:
+    app: discovery-server

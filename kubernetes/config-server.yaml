@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: config-server
+  name: config-server
+  namespace: spring-petclinic
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: config-server
+  template:
+    metadata:
+      labels:
+        app: config-server
+    spec:
+      containers:
+        - image: bowan.azurecr.io/spring-petclinic-config-server:latest
+          name: config-server
+          imagePullPolicy: Always
+          # livenessProbe:
+          #   httpGet:
+          #     port: 8080
+          #     path: /actuator/health/liveness
+          #   initialDelaySeconds: 90
+          #   periodSeconds: 5
+          # readinessProbe:
+          #   httpGet:
+          #     port: 8080
+          #     path: /actuator/health/readiness
+          #   initialDelaySeconds: 15
+          # lifecycle:
+          #   preStop:
+          #     exec:
+          #       command: ["sh", "-c", "sleep 10"]
+          resources:
+            limits:
+              cpu: 500m
+              memory: 512Mi
+            requests:
+              cpu: 500m
+              memory: 512Mi
+          ports:
+            - containerPort: 8888
+      restartPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: config-server
+  namespace: spring-petclinic
+spec:
+  ports:
+    - port: 8888
+  selector:
+    app: config-server
