@@ -36,11 +36,11 @@ spec:
           #       command: ["sh", "-c", "sleep 10"]
           resources:
             limits:
-              cpu: 500m
-              memory: 512Mi
+              cpu: 1000m
+              memory: 1Gi
             requests:
-              cpu: 500m
-              memory: 512Mi
+              cpu: 1000m
+              memory: 1Gi
           ports:
             - containerPort: 8888
       restartPolicy: Always

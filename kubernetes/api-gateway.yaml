@@ -21,11 +21,11 @@ spec:
           imagePullPolicy: Always
           resources:
             limits:
-              cpu: 500m
-              memory: 512Mi
+              cpu: 1000m
+              memory: 1Gi
             requests:
-              cpu: 500m
-              memory: 512Mi
+              cpu: 1000m
+              memory: 1Gi
           ports:
             - containerPort: 8080
       restartPolicy: Always
@@ -40,6 +40,6 @@ metadata:
 spec:
   type: LoadBalancer
   ports:
-    - port: 8080
+    - port: 80
   selector:
     app: api-gateway

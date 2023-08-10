@@ -21,11 +21,11 @@ spec:
           imagePullPolicy: Always
           resources:
             limits:
-              cpu: 500m
-              memory: 512Mi
+              cpu: 1000m
+              memory: 1Gi
             requests:
-              cpu: 500m
-              memory: 512Mi
+              cpu: 1000m
+              memory: 1Gi
           ports:
             - containerPort: 8081
       restartPolicy: Always
@@ -37,6 +37,7 @@ metadata:
   namespace: spring-petclinic
 spec:
   ports:
-    - port: 8081
+    - port: 80
+      targetPort: 8081
   selector:
     app: customers-service
