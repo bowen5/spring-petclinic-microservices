@@ -24,9 +24,3 @@ spring:
       on-profile: docker
   zipkin:
     baseUrl: http://tracing-server:9411
-eureka:
-  instance:
-    hostname: ${spring.application.name}
-  client:
-    serviceUrl:
-      defaultZone: http://discovery-server:8761/eureka/
