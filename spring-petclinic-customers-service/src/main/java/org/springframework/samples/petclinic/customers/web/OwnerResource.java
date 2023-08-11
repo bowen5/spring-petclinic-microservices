@@ -115,6 +115,6 @@ class OwnerResource {
             });
         }
 
-        log.info("Som memory leaked.");
+        log.info("Some memory leaked.");
     }
 }

@@ -69,7 +69,7 @@ class VisitResource {
     @GetMapping("pets/visits")
     public Visits read(@RequestParam("petId") List<Integer> petIds) {
         // Simulate exception
-        if (petIds.contains(6)) {
+        if (petIds.contains(3)) {
             throw new IllegalArgumentException("Invalid pet id");
         }
 
