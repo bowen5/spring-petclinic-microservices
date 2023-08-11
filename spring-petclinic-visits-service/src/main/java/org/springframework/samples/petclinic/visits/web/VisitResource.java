@@ -68,6 +68,10 @@ class VisitResource {
 
     @GetMapping("pets/visits")
     public Visits read(@RequestParam("petId") List<Integer> petIds) {
+        if (petIds.contains(7)) {
+            throw new IllegalArgumentException("Invalid pet id");
+        }
+
         final List<Visit> byPetIdIn = visitRepository.findByPetIdIn(petIds);
         return new Visits(byPetIdIn);
     }
