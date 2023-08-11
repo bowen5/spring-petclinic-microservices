@@ -4,4 +4,3 @@ docker push bowan.azurecr.io/spring-petclinic-config-server:latest
 docker push bowan.azurecr.io/spring-petclinic-visits-service:latest
 docker push bowan.azurecr.io/spring-petclinic-vets-service:latest
 docker push bowan.azurecr.io/spring-petclinic-customers-service:latest
-docker push bowan.azurecr.io/spring-petclinic-admin-server:latest

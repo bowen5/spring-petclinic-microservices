@@ -81,7 +81,7 @@ spring:
     activate:
       on-profile: mysql
   datasource:
-    url: jdbc:mysql://bowan.mysql.database.azure.com:3306/petclinic?useSSL=tru
+    url: jdbc:mysql://bowan.mysql.database.azure.com:3306/petclinic?useSSL=true
   sql:
     init:
       schema-locations: classpath*:db/mysql/schema.sql
