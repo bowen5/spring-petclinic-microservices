@@ -19,21 +19,6 @@ spec:
         - image: bowan.azurecr.io/spring-petclinic-config-server:latest
           name: config-server
           imagePullPolicy: Always
-          # livenessProbe:
-          #   httpGet:
-          #     port: 8080
-          #     path: /actuator/health/liveness
-          #   initialDelaySeconds: 90
-          #   periodSeconds: 5
-          # readinessProbe:
-          #   httpGet:
-          #     port: 8080
-          #     path: /actuator/health/readiness
-          #   initialDelaySeconds: 15
-          # lifecycle:
-          #   preStop:
-          #     exec:
-          #       command: ["sh", "-c", "sleep 10"]
           resources:
             limits:
               cpu: 1000m
@@ -46,6 +31,8 @@ spec:
           env:
             - name: SPRING_PROFILES_ACTIVE
               value: "kubernetes,mysql"
+            - name: JAVA_TOOL_OPTIONS
+              value: "-Xms128m -Xmx512m"
             - name: SPRING_DATASOURCE_USERNAME
               valueFrom:
                 secretKeyRef:
@@ -57,14 +44,3 @@ spec:
                   name: mysql-secret
                   key: password
       restartPolicy: Always
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: config-server
-  namespace: spring-petclinic
-spec:
-  ports:
-    - port: 8888
-  selector:
-    app: config-server

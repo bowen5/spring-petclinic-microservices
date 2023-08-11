@@ -2,22 +2,22 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: customers-service
-  name: customers-service
+    app: visits-service
+  name: visits-service
   namespace: spring-petclinic
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: customers-service
+      app: visits-service
   template:
     metadata:
       labels:
-        app: customers-service
+        app: visits-service
     spec:
       containers:
-        - image: bowan.azurecr.io/spring-petclinic-customers-service:latest
-          name: customers-service
+        - image: bowan.azurecr.io/spring-petclinic-visits-service:latest
+          name: visits-service
           imagePullPolicy: Always
           resources:
             limits:
@@ -27,10 +27,12 @@ spec:
               cpu: 1000m
               memory: 1Gi
           ports:
-            - containerPort: 8081
+            - containerPort: 8082
           env:
             - name: SPRING_PROFILES_ACTIVE
               value: "kubernetes,mysql"
+            - name: JAVA_TOOL_OPTIONS
+              value: "-Xms128m -Xmx512m"
             - name: SPRING_DATASOURCE_USERNAME
               valueFrom:
                 secretKeyRef:
@@ -42,15 +44,3 @@ spec:
                   name: mysql-secret
                   key: password
       restartPolicy: Always
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: customers-service
-  namespace: spring-petclinic
-spec:
-  ports:
-    - port: 80
-      targetPort: 8081
-  selector:
-    app: customers-service

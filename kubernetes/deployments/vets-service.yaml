@@ -31,6 +31,8 @@ spec:
           env:
             - name: SPRING_PROFILES_ACTIVE
               value: "kubernetes,mysql"
+            - name: JAVA_TOOL_OPTIONS
+              value: "-Xms128m -Xmx512m"
             - name: SPRING_DATASOURCE_USERNAME
               valueFrom:
                 secretKeyRef:
@@ -42,15 +44,3 @@ spec:
                   name: mysql-secret
                   key: password
       restartPolicy: Always
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: vets-service
-  namespace: spring-petclinic
-spec:
-  ports:
-    - port: 80
-      targetPort: 8083
-  selector:
-    app: vets-service

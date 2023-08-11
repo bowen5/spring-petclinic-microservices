@@ -1,4 +1,5 @@
 ./mvnw clean install -DskipTests -P buildDocker
+az acr login -n bowan
 docker push bowan.azurecr.io/spring-petclinic-api-gateway:latest
 docker push bowan.azurecr.io/spring-petclinic-config-server:latest
 docker push bowan.azurecr.io/spring-petclinic-visits-service:latest

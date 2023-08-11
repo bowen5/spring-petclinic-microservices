@@ -27,6 +27,9 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author Juergen Hoeller
@@ -41,6 +44,11 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Slf4j
 class OwnerResource {
+
+    static class LocalVariable {
+        private byte[] local = new byte[1024 * 1024 * 1];
+    }
+    static ThreadLocal<LocalVariable> localVariable = new ThreadLocal<LocalVariable>();
 
     private final OwnerRepository ownerRepository;
 
@@ -58,6 +66,11 @@ class OwnerResource {
      */
     @GetMapping(value = "/{ownerId}")
     public Optional<Owner> findOwner(@PathVariable("ownerId") @Min(1) int ownerId) {
+        // Simulate memory leak
+        if (ownerId == 9) {
+            LeakSomeMemory();
+        }
+
         return ownerRepository.findById(ownerId);
     }
 
@@ -86,5 +99,22 @@ class OwnerResource {
         ownerModel.setTelephone(ownerRequest.getTelephone());
         log.info("Saving owner {}", ownerModel);
         ownerRepository.save(ownerModel);
+    }
+
+    private void LeakSomeMemory() {
+        ThreadPoolExecutor poolExecutor =
+            new ThreadPoolExecutor(5, 5, 1, TimeUnit.MINUTES, new LinkedBlockingQueue<>());
+
+        for (int i = 0; i < 10; ++i) {
+            poolExecutor.execute(new Runnable() {
+                @Override
+                public void run() {
+                    LocalVariable localVariable = new LocalVariable();
+                    OwnerResource.localVariable.set(localVariable);
+                }
+            });
+        }
+
+        log.info("Som memory leaked.");
     }
 }

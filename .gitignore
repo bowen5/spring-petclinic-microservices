@@ -19,3 +19,6 @@ target/
 
 # Branch switching
 generated/
+
+# Secrets
+kubernetes/basic/secret.yaml
