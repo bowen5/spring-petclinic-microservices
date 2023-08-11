@@ -89,3 +89,10 @@ spring:
       schema-locations: classpath*:db/mysql/schema.sql
       data-locations: classpath*:db/mysql/data.sql
       init: ALWAYS
+
+---
+spring:
+  config:
+    activate:
+      on-profile: kubernetes
+logging.level.org.springframework.web: DEBUG

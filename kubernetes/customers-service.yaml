@@ -28,6 +28,9 @@ spec:
               memory: 1Gi
           ports:
             - containerPort: 8081
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: "kubernetes"
       restartPolicy: Always
 ---
 apiVersion: v1

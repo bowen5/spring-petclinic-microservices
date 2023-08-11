@@ -13,10 +13,4 @@ eureka:
 spring:
   config:
     activate:
-      on-profile: docker
-eureka:
-  instance:
-    hostname: ${spring.application.name}
-  client:
-    serviceUrl:
-      defaultZone: http://discovery-server:8761/eureka/
+      on-profile: kubernetes
